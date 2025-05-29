@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "1023988252381",
+    "firebase_url": "https://cookpab-a0bf8-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cookpab-a0bf8",
+    "storage_bucket": "cookpab-a0bf8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023988252381:android:93539f6ce25e466fe1a534",
+        "android_client_info": {
+          "package_name": "com.example.cookpad_app_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023988252381-j72sovejp1tdv2d12g414td6q4bhf30m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cookpad_app_clone",
+            "certificate_hash": "714afe1964540f2daf10813d2fa0532cb630f442"
+          }
+        },
+        {
+          "client_id": "1023988252381-td0r1lmakqod71u5bab3ec412egt2la5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cookpad_app_clone",
+            "certificate_hash": "33a1afab82c8dac4b7ed7c09bfb1b8a983d3dade"
+          }
+        },
+        {
+          "client_id": "1023988252381-cljfsni76olb4rtk5lkrg9tftu8qigdb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFW7v8pVap4T_HR6xS71Y2do9XOmB2m5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023988252381-cljfsni76olb4rtk5lkrg9tftu8qigdb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1023988252381-07s5c46joqom2tvfe2t5ecj6q99jr1im.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cookpadAppClone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023988252381:android:5bd254445431a327e1a534",
+        "android_client_info": {
+          "package_name": "com.example.flutter_tester"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023988252381-cljfsni76olb4rtk5lkrg9tftu8qigdb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFW7v8pVap4T_HR6xS71Y2do9XOmB2m5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023988252381-cljfsni76olb4rtk5lkrg9tftu8qigdb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1023988252381-07s5c46joqom2tvfe2t5ecj6q99jr1im.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cookpadAppClone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
