@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   final String uid;
   final String email;
@@ -13,17 +15,17 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
       'email': email,
       'role': role,
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
     return UserModel(
-      uid: map['uid'] ?? '',
-      email: map['email'] ?? '',
-      role: map['role'] ?? 'user',
+      uid: doc.id, // Lấy UID từ Document ID
+      email: data['email'] ?? '',
+      role: data['role'] ?? 'user',
     );
   }
-} 
+}

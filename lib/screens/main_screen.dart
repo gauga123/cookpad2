@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'user_page.dart';
 import 'recipe_screen.dart';
+import 'notification_screen.dart'; // Thêm import mới
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,6 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     const UserPage(),
     const RecipeScreen(),
+    const NotificationScreen(), // Thêm NotificationScreen
   ];
 
   void _onItemTapped(int index) {
@@ -38,6 +40,11 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: 'My Recipe',
+          ),
+          BottomNavigationBarItem(
+            // Thêm tab mới
+            icon: Icon(Icons.notifications),
+            label: 'Thông báo',
           ),
         ],
       ),
