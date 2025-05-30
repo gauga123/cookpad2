@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             // Thêm tab mới
             icon: Icon(Icons.notifications),
-            label: 'Thông báo',
+            label: 'Notifications',
           ),
         ],
       ),

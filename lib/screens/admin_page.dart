@@ -36,26 +36,26 @@ class _AdminPageState extends State<AdminPage>
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Gửi tin nhắn'),
+          title: const Text('Send Message'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Đến User ID: $userId'),
+              Text('To User ID: $userId'),
               TextField(
                 controller: _messageController,
-                decoration: const InputDecoration(labelText: 'Tin nhắn'),
+                decoration: const InputDecoration(labelText: 'Message'),
               ),
               TextField(
                 controller: _videoLinkController,
                 decoration:
-                    const InputDecoration(labelText: 'Link video (Tùy chọn)'),
+                    const InputDecoration(labelText: 'Video Link (Optional)'),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Hủy'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -68,14 +68,14 @@ class _AdminPageState extends State<AdminPage>
                       userId,
                       _messageController.text,
                       _videoLinkController.text.isNotEmpty &&
-                              _videoLinkController.text.startsWith(
-                                  'http') // Kiểm tra định dạng cơ bản
+                              _videoLinkController.text
+                                  .startsWith('http') // Basic format check
                           ? _videoLinkController.text
                           : null,
                     );
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tin nhắn đã gửi!')),
+                      const SnackBar(content: Text('Message sent!')),
                     );
                   } catch (e) {
                     print('Error sending notification: $e');
@@ -89,13 +89,13 @@ class _AdminPageState extends State<AdminPage>
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Vui lòng nhập nội dung tin nhắn!'),
+                      content: Text('Please enter message content!'),
                       backgroundColor: Colors.red,
                     ),
                   );
                 }
               },
-              child: const Text('Gửi'),
+              child: const Text('Send'),
             ),
           ],
         );
@@ -213,7 +213,7 @@ class _AdminPageState extends State<AdminPage>
                     const PopupMenuItem(
                         value: 'delete', child: Text('Delete User')),
                     const PopupMenuItem(
-                        value: 'send_message', child: Text('Gửi tin nhắn')),
+                        value: 'send_message', child: Text('Send Message')),
                   ],
                 ),
                 onTap: () {
