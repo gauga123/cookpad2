@@ -4,6 +4,8 @@ import '../services/recipe_service.dart';
 import '../models/recipe_model.dart';
 import '../models/user_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../services/notification_service.dart';
+import '../services/user_service.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -16,12 +18,89 @@ class _AdminPageState extends State<AdminPage>
     with SingleTickerProviderStateMixin {
   final AuthService _authService = AuthService();
   final RecipeService _recipeService = RecipeService();
+  final NotificationService _notificationService = NotificationService();
+  final UserService _userService = UserService();
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+  }
+
+  void _showSendMessageDialog(String userId) {
+    final TextEditingController _messageController = TextEditingController();
+    final TextEditingController _videoLinkController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Gửi tin nhắn'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Đến User ID: $userId'),
+              TextField(
+                controller: _messageController,
+                decoration: const InputDecoration(labelText: 'Tin nhắn'),
+              ),
+              TextField(
+                controller: _videoLinkController,
+                decoration:
+                    const InputDecoration(labelText: 'Link video (Tùy chọn)'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Hủy'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (_messageController.text.isNotEmpty) {
+                  try {
+                    print('Sending notification to userId: $userId');
+                    print('Message: ${_messageController.text}');
+                    print('Video Link: ${_videoLinkController.text}');
+                    await _notificationService.sendNotification(
+                      userId,
+                      _messageController.text,
+                      _videoLinkController.text.isNotEmpty &&
+                              _videoLinkController.text.startsWith(
+                                  'http') // Kiểm tra định dạng cơ bản
+                          ? _videoLinkController.text
+                          : null,
+                    );
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Tin nhắn đã gửi!')),
+                    );
+                  } catch (e) {
+                    print('Error sending notification: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error: $e'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Vui lòng nhập nội dung tin nhắn!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Gửi'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -64,7 +143,7 @@ class _AdminPageState extends State<AdminPage>
 
   Widget _buildUsersTab() {
     return StreamBuilder<List<UserModel>>(
-      stream: _authService.getAllUsers(),
+      stream: _userService.getAllUsersStream(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -102,9 +181,18 @@ class _AdminPageState extends State<AdminPage>
                 ),
                 title: Text(user.email,
                     style: const TextStyle(color: Colors.white)),
-                subtitle: Text(
-                  'Role: ${user.role}',
-                  style: const TextStyle(color: Colors.white70),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Role: ${user.role}',
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                    Text(
+                      'UID: ${user.uid}',
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
                 ),
                 trailing: PopupMenuButton<String>(
                   icon: const Icon(Icons.more_vert, color: Colors.white70),
@@ -113,6 +201,8 @@ class _AdminPageState extends State<AdminPage>
                       _promoteUser(user);
                     } else if (value == 'delete') {
                       _showDeleteUserConfirmation(user);
+                    } else if (value == 'send_message') {
+                      _showSendMessageDialog(user.uid);
                     }
                   },
                   itemBuilder: (context) => [
@@ -122,6 +212,8 @@ class _AdminPageState extends State<AdminPage>
                         value: 'promote', child: Text('Promote/Demote')),
                     const PopupMenuItem(
                         value: 'delete', child: Text('Delete User')),
+                    const PopupMenuItem(
+                        value: 'send_message', child: Text('Gửi tin nhắn')),
                   ],
                 ),
                 onTap: () {
@@ -458,6 +550,11 @@ class _AdminPageState extends State<AdminPage>
                                     : Colors.white70,
                             fontWeight: FontWeight.bold,
                           ),
+                        ),
+                        Text(
+                          'UID: ${user.uid}',
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),
@@ -953,7 +1050,6 @@ class _AdminPageState extends State<AdminPage>
           actionText = 'Promote to Admin';
         }
 
-        // Check if the current user is an admin account but doesn't have admin role
         if (user.email.contains('admin') && user.role != 'admin') {
           newRole = 'admin';
           actionText = 'Restore Admin Role';

@@ -18,7 +18,7 @@ class AuthService {
       if (user == null) return null;
       final doc = await _firestore.collection('users').doc(user.uid).get();
       if (!doc.exists) return null;
-      return UserModel.fromMap(doc.data()!);
+      return UserModel.fromFirestore(doc);
     });
   }
 
@@ -34,7 +34,7 @@ class AuthService {
   // Get all users (admin only)
   Stream<List<UserModel>> getAllUsers() {
     return _firestore.collection('users').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => UserModel.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => UserModel.fromFirestore(doc)).toList();
     });
   }
 
@@ -49,7 +49,6 @@ class AuthService {
 
       // Create user document in Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'uid': userCredential.user!.uid,
         'email': email,
         'role': 'user',
       });
