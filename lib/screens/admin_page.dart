@@ -1043,7 +1043,7 @@ class _AdminPageState extends State<AdminPage>
           newRole = 'premium';
           actionText = 'Upgrade to Premium';
         } else if (user.role == 'premium') {
-          newRole = 'user';
+          newRole = 'user'; 
           actionText = 'Demote to Regular User';
         } else {
           newRole = 'admin';
