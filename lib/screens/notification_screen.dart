@@ -39,7 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen>
       appBar: AppBar(
         backgroundColor: const Color(0xFF232323),
         title: const Text(
-          'Thông báo',
+          'Notifications',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         bottom: TabBar(
@@ -48,8 +48,8 @@ class _NotificationScreenState extends State<NotificationScreen>
           labelColor: Colors.orangeAccent,
           unselectedLabelColor: Colors.white70,
           tabs: const [
-            Tab(text: 'Cá nhân'),
-            Tab(text: 'Cả Bếp'),
+            Tab(text: 'Personal'),
+            Tab(text: 'Community'),
           ],
         ),
       ),
@@ -77,7 +77,7 @@ class _NotificationScreenState extends State<NotificationScreen>
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
-              child: Text('Không có thông báo nào.',
+              child: Text('No notifications.',
                   style: TextStyle(color: Colors.white70)));
         }
 
@@ -99,7 +99,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                   child: Icon(Icons.notifications, color: Colors.white),
                 ),
                 title: const Text(
-                  'Cookpad Vui Tính - Admin',
+                  'Cookpad Fun - Admin',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
@@ -125,13 +125,13 @@ class _NotificationScreenState extends State<NotificationScreen>
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Không thể mở liên kết video'),
+                                  content: Text('Cannot open video link'),
                                 ),
                               );
                             }
                           },
                           child: const Text(
-                            'Xem video',
+                            'Watch video',
                             style: TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
@@ -169,19 +169,19 @@ class _NotificationScreenState extends State<NotificationScreen>
   Widget _buildCommunityNotifications() {
     return const Center(
       child: Text(
-        'Chức năng đang phát triển...',
+        'Feature under development...',
         style: TextStyle(color: Colors.white70),
       ),
     );
   }
 
   String _formatTimestamp(DateTime? timestamp) {
-    if (timestamp == null) return 'Vừa xong';
+    if (timestamp == null) return 'Just now';
     final now = DateTime.now();
     final diff = now.difference(timestamp);
-    if (diff.inDays > 0) return '${diff.inDays} ngày trước';
-    if (diff.inHours > 0) return '${diff.inHours} giờ trước';
-    if (diff.inMinutes > 0) return '${diff.inMinutes} phút trước';
-    return 'Vừa xong';
+    if (diff.inDays > 0) return '${diff.inDays} days ago';
+    if (diff.inHours > 0) return '${diff.inHours} hours ago';
+    if (diff.inMinutes > 0) return '${diff.inMinutes} minutes ago';
+    return 'Just now';
   }
 }
